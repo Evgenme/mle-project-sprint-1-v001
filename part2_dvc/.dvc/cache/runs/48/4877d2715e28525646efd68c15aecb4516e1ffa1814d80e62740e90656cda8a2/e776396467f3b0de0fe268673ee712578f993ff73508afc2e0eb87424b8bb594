@@ -1,0 +1,14 @@
+cmd: python scripts/data.py
+deps:
+- path: scripts/data.py
+  hash: md5
+  md5: c9b01fd5f742e2ab2876850771ac0a5f
+  size: 1426
+params:
+  params.yaml:
+    index_col: id_key
+outs:
+- path: data/initial_data.csv
+  hash: md5
+  md5: 5ddb04890695bde2f17c5164ded91862
+  size: 18031881

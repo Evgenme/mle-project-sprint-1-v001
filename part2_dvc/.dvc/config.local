@@ -1,0 +1,2 @@
+['remote "my_storage"']
+    credentialpath = ../.env

@@ -1,0 +1,80 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: python scripts/data.py
+    deps:
+    - path: scripts/data.py
+      hash: md5
+      md5: c9b01fd5f742e2ab2876850771ac0a5f
+      size: 1426
+    params:
+      params.yaml:
+        index_col: id_key
+    outs:
+    - path: data/initial_data.csv
+      hash: md5
+      md5: 5ddb04890695bde2f17c5164ded91862
+      size: 18031881
+      cloud:
+        my_storage:
+          etag: 5ddb04890695bde2f17c5164ded91862
+          version_id: 000618A576DF62F5
+  fit_model:
+    cmd: python scripts/fit.py
+    deps:
+    - path: data/initial_data.csv
+      hash: md5
+      md5: 5ddb04890695bde2f17c5164ded91862
+      size: 18031881
+    - path: scripts/fit.py
+      hash: md5
+      md5: 6f07b8085f612d1cb2824414785e6f89
+      size: 3383
+    params:
+      params.yaml:
+        drop_col:
+        - id
+        - building_id
+        - price_metr
+        index_col: id_key
+        one_hot_drop: if_binary
+        target_col: price
+    outs:
+    - path: models/fitted_model.pkl
+      hash: md5
+      md5: dc6abca5c95c51145030210b439bcb2a
+      size: 6253761
+      cloud:
+        my_storage:
+          etag: dc6abca5c95c51145030210b439bcb2a
+          version_id: 000618A576D87864
+  evaluate_model:
+    cmd: python scripts/evaluate.py
+    deps:
+    - path: models/fitted_model.pkl
+      hash: md5
+      md5: dc6abca5c95c51145030210b439bcb2a
+      size: 6253761
+    - path: scripts/evaluate.py
+      hash: md5
+      md5: ca9bc3a3bebed10acbc794200f2e3fce
+      size: 1443
+    params:
+      params.yaml:
+        index_col: id_key
+        metrics:
+        - neg_mean_squared_error
+        - neg_mean_absolute_error
+        - r2
+        n_jobs: -1
+        n_splits: 5
+        target_col: price
+    outs:
+    - path: cv_results/cv_res.json
+      hash: md5
+      md5: 9ecbc41aa300865977572d38ecc97369
+      size: 157
+      cloud:
+        my_storage:
+          etag: 9ecbc41aa300865977572d38ecc97369
+          version_id: 000618A576DAB3EE

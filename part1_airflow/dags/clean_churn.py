@@ -21,7 +21,7 @@ def clean_flats_dataset():
         conn = db_engine.connect()  # Получаем объект соединения для выполнения запросов
 
         # Исполнение SQL-команды для удаления таблицы, если она существует
-        conn.execute("DROP TABLE IF EXISTS clean_users_churn")
+        conn.execute("DROP TABLE IF EXISTS clean_flats_churn")
 
         metadata = MetaData()
 
@@ -78,8 +78,14 @@ def clean_flats_dataset():
         # удаление несоответствий суммарной площади объекта 
         condition = data['kitchen_area']+data['living_area'] > data['total_area']
         data = data[~condition]
+        # удаление объектов с нулевыми значениями по жилой и кухонной зоне
+        condition = (data['living_area'] == 0) & (data['kitchen_area'] == 0)
+        data = data[~condition]
         # удаление аномальных выбросов по стоимости объекта
         condition = (data['price_metr'] <= 80000) | (data['price_metr'] >= 1200000)
+        data = data[~condition]
+        # удаление аномальных выбросов по количеству квартир
+        condition = (data['flats_count'] > 1700)
         data = data[~condition]
 
         return data

@@ -1,0 +1,25 @@
+cmd: python scripts/evaluate.py
+deps:
+- path: models/fitted_model.pkl
+  hash: md5
+  md5: 60a854e0511553b370d661bf67d81ee3
+  size: 3638
+- path: scripts/evaluate.py
+  hash: md5
+  md5: ca9bc3a3bebed10acbc794200f2e3fce
+  size: 1443
+params:
+  params.yaml:
+    index_col: id_key
+    metrics:
+    - neg_mean_squared_error
+    - neg_mean_absolute_error
+    - r2
+    n_jobs: -1
+    n_splits: 5
+    target_col: price
+outs:
+- path: cv_results/cv_res.json
+  hash: md5
+  md5: a0c013c239197a83f9e56608ab620004
+  size: 156

@@ -1,0 +1,24 @@
+cmd: python scripts/fit.py
+deps:
+- path: data/initial_data.csv
+  hash: md5
+  md5: 5ddb04890695bde2f17c5164ded91862
+  size: 18031881
+- path: scripts/fit.py
+  hash: md5
+  md5: 450773bca5e5be4ff08c3fbda86aa73f
+  size: 2117
+params:
+  params.yaml:
+    drop_col:
+    - id
+    - building_id
+    - price_metr
+    index_col: id_key
+    one_hot_drop: if_binary
+    target_col: price
+outs:
+- path: models/fitted_model.pkl
+  hash: md5
+  md5: 60a854e0511553b370d661bf67d81ee3
+  size: 3638
